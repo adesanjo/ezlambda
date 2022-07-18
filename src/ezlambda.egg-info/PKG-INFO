@@ -1,7 +1,7 @@
 Metadata-Version: 2.1
 Name: ezlambda
-Version: 0.1.0
-Summary: Tools for code golfing in Python
+Version: 0.1.1
+Summary: Easy and intuitive notation to replace simple lambda functions.
 Author: adesanjo
 License: MIT License
         

@@ -4,8 +4,8 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "ezlambda"
-version = "0.1.0"
-description = "Tools for code golfing in Python"
+version = "0.1.1"
+description = "Easy and intuitive notation to replace simple lambda functions."
 readme = "README.md"
 authors = [{ name = "adesanjo"}]
 license = { file = "LICENSE" }

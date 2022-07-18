@@ -1,6 +1,6 @@
 from .variable import Variable, VariableOperationMarker
 
-__version__ = "0.1.0"
+__version__ = "0.1.1"
 
 Var = Variable
 VarMarker = VariableOperationMarker
