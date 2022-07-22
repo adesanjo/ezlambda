@@ -62,19 +62,19 @@ class Variable(_VariableSuper):
         tree = super().getTree()
         if tree is None:
             tree = self
-        return Variable(None, self, _VariableExecutionTree(tree, __name, "get", lambda x, _name: getattr(x, _name)))
+        return Variable(None, self, _VariableExecutionTree(tree, __name, "getattr", lambda x, _name: getattr(x, _name)))
     
     def __setattr__(self, __name: str, __value: Any) -> Variable:  # type: ignore # __setattr__ usually returns None, but here it is used to return an action that will set an object's attribute when called
         tree = super().getTree()
         if tree is None:
             tree = self
-        return Variable(None, self, _VariableExecutionTree(tree, __name, "set", lambda x, _name, _value: setattr(x, _name, _value), __value))
+        return Variable(None, self, _VariableExecutionTree(tree, __name, "setattr", lambda x, _name, _value: setattr(x, _name, _value), __value))
     
     def __delattr__(self, __name: str) -> Variable:
         tree = super().getTree()
         if tree is None:
             tree = self
-        return Variable(None, self, _VariableExecutionTree(tree, __name, "get", lambda x, _name: delattr(x, _name)))
+        return Variable(None, self, _VariableExecutionTree(tree, __name, "delattr", lambda x, _name: delattr(x, _name)))
     
     def __pos__(self) -> Any:
         tree = super().getTree()
@@ -477,6 +477,54 @@ class Variable(_VariableSuper):
         if tree is None:
             tree = self
         return Variable(None, self, _VariableExecutionTree(tree, None, "sizeof", lambda x: sys.getsizeof(x)))
+    
+    def __len__(self) -> Any:
+        tree = super().getTree()
+        if tree is None:
+            tree = self
+        return Variable(None, self, _VariableExecutionTree(tree, None, "len", lambda x: len(x)))
+    
+    def __getitem__(self, __key: str) -> Variable:
+        tree = super().getTree()
+        if tree is None:
+            tree = self
+        return Variable(None, self, _VariableExecutionTree(tree, __key, "getitem", lambda x, _key: x[_key]))
+    
+    def __setitem__(self, __key: str, __value: Any) -> Variable:  # type: ignore # __setitem__ usually returns None, but here it is used to return an action that will set an object's itemibute when called
+        tree = super().getTree()
+        if tree is None:
+            tree = self
+        return Variable(None, self, _VariableExecutionTree(tree, __key, "setitem", lambda x, _key, _value: x.__setitem__(_key, _value), __value))
+    
+    def __delitem__(self, __key: str) -> Variable:
+        tree = super().getTree()
+        if tree is None:
+            tree = self
+        return Variable(None, self, _VariableExecutionTree(tree, __key, "delitem", lambda x, _key: x.__delitem__(_key)))
+    
+    def __iter__(self) -> Any:
+        tree = super().getTree()
+        if tree is None:
+            tree = self
+        return Variable(None, self, _VariableExecutionTree(tree, None, "iter", lambda x: iter(x)))
+    
+    def __reversed__(self) -> Any:
+        tree = super().getTree()
+        if tree is None:
+            tree = self
+        return Variable(None, self, _VariableExecutionTree(tree, None, "reversed", lambda x: reversed(x)))
+    
+    def __contains__(self, __item) -> Variable:
+        tree = super().getTree()
+        if tree is None:
+            tree = self
+        return Variable(None, self, _VariableExecutionTree(tree, __item, "contains", lambda x, _item: x.__contains__(_item)))
+    
+    def __missing__(self, __key) -> Variable:
+        tree = super().getTree()
+        if tree is None:
+            tree = self
+        return Variable(None, self, _VariableExecutionTree(tree, __key, "missing", lambda x, _key: x.__missing__(_key)))
 
 class _VariableExecutionTree:
     def __init__(self, lChild, rChild, op, func, extraChild=None):
